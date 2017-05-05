@@ -214,23 +214,6 @@ public class ProcessMain extends JFrame implements PropertyChangeListener{
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		JDialog.setDefaultLookAndFeelDecorated(true);
 
-		// init JFrame
-		JFrame frame = new JFrame("UAT");
-		frame.setIconImage(new ImageIcon(this.getClass().getResource(
-				"/images/frameIcon.png")).getImage());
-		frame.setLayout(new BorderLayout());
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-																
-		frame.add(this.assignScaledBackground(), BorderLayout.CENTER);
-		frame.add(this.prepareTitlePanel(), BorderLayout.NORTH);
-		frame.add(this.prepareButtonPanel(), BorderLayout.SOUTH);
-
-		frame.pack();
-		frame.setLocationByPlatform(true);
-		frame.setSize(600, 600);
-		frame.setResizable(false);
-		frame.setVisible(true);
-		
 		
 		// init jobstreetFrame
 		JFrame frameJ = new JFrame("JobStreet Parameters");
@@ -248,7 +231,7 @@ public class ProcessMain extends JFrame implements PropertyChangeListener{
 		frameJ.setVisible(true);
 		
 			 
-		frame.addWindowListener(new WindowAdapter() {
+		frameJ.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				try
 				{if(driver != null)driver.close();
@@ -267,41 +250,6 @@ public class ProcessMain extends JFrame implements PropertyChangeListener{
 		
 	}
 	
-	private JPanel prepareTitlePanel() {
-		JPanel titlePanel = new JPanel();
-		titlePanel.setLayout(new GridBagLayout());
-		titlePanel.setBackground(Color.BLACK);
-		titlePanel.setBorder(BorderFactory.createMatteBorder(0, 0, 10, 0,
-				new Color(204, 0, 0)));
-																
-		// DBS Logo
-		JLabel dbsLabel = new JLabel();
-		dbsLabel.setIcon(new ImageIcon(this.getClass().getResource(
-				"/images/logo.png")));
-		dbsLabel.setBackground(Color.BLACK);
-		dbsLabel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 0));
-		dbsLabel.setOpaque(true);
-
-		// Slogan
-		JLabel dbsSloganLabel = new JLabel();
-		ImageIcon icon = new ImageIcon(this.getClass().getResource(
-				"/images/tagline.png"));
-		Image image = icon.getImage();
-		dbsSloganLabel.setIcon(new ImageIcon(image.getScaledInstance(
-				image.getWidth(null) / 2, image.getHeight(null) / 2,
-				Image.SCALE_SMOOTH)));
-		dbsSloganLabel.setBackground(Color.BLACK);
-		dbsSloganLabel.setHorizontalAlignment(JLabel.CENTER);
-		dbsSloganLabel.setVerticalAlignment(JLabel.CENTER);
-		dbsSloganLabel.setOpaque(true);
-															
-		this.addComponentWithConstraint(titlePanel, dbsLabel, 0, 0, 1, 1, 80,
-				100, GridBagConstraints.WEST, GridBagConstraints.BOTH);
-		this.addComponentWithConstraint(titlePanel, dbsSloganLabel, 1, 0, 1, 1,
-				20, 100, GridBagConstraints.EAST, GridBagConstraints.BOTH);
-
-		return titlePanel;
-	}
 	
 	public static void done(){
 		try {
@@ -329,13 +277,13 @@ public class ProcessMain extends JFrame implements PropertyChangeListener{
 		this.addComponentWithConstraint(panel, keywordField, 1, 0, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, 
 				GridBagConstraints.BOTH, 1, 1, 1, 1, 0, 0);
 		
-		String[] locations = {"Johor", "Kuala Lumpur"};
+		String[] locations = {"Select a Location", "Johor", "Kuala Lumpur"};
 		locationList = new JComboBox(locations);
 		locationList.setSelectedIndex(0);
 		this.addComponentWithConstraint(panel, locationList, 0, 1, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, 
 				GridBagConstraints.BOTH, 1, 1, 1, 1, 0, 0);
 		
-		String[] specs = {"IT-Software", "IT-Hardware"};
+		String[] specs = {"Select a Specialization", "IT-Software", "IT-Hardware"};
 		specsList = new JComboBox(specs);
 		specsList.setSelectedIndex(0);
 		this.addComponentWithConstraint(panel, specsList, 1, 1, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, 
@@ -358,13 +306,13 @@ public class ProcessMain extends JFrame implements PropertyChangeListener{
 				GridBagConstraints.BOTH, 1, 1, 1, 1, 0, 0);
 		
 
-		String[] posLevel = {"Manager", "Junior Executive", "Non-Executive"};
+		String[] posLevel = {"Select a Position Level", "Manager", "Junior Executive", "Non-Executive"};
 		posLevelList = new JComboBox(posLevel);
 		posLevelList.setSelectedIndex(0);
 		this.addComponentWithConstraint(panel, posLevelList, 0, 4, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, 
 				GridBagConstraints.BOTH, 1, 1, 1, 1, 0, 0);
 		
-		String[] jobType = {"Full Time/Contract", "Part Time/Temporary", "Internship"};
+		String[] jobType = {"Select a Job Type","Full Time/Contract", "Part Time/Temporary", "Internship"};
 		jobTypeList = new JComboBox(jobType);
 		jobTypeList.setSelectedIndex(0);
 		this.addComponentWithConstraint(panel, jobTypeList, 1, 4, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, 
@@ -376,151 +324,8 @@ public class ProcessMain extends JFrame implements PropertyChangeListener{
 			}
 		});
 		
-		return panel;
-	}
-	
-	private JPanel prepareButtonPanel() {
-		//http://www.codejava.net/java-se/swing/how-to-use-jdatepicker-to-display-calendar-component
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-	    int year = cal.get(Calendar.YEAR);
-	    int month = cal.get(Calendar.MONTH);
-	    int day = cal.get(Calendar.DAY_OF_MONTH);
-	    // etc.
-	    
-		//datepicker
-		UtilDateModel model = new UtilDateModel();
-		model.setDate(year, month, day);
-		model.setSelected(true);
-		datePanel = new JDatePanelImpl(model);
-		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-		
-		UtilDateModel model2 = new UtilDateModel();
-		model2.setDate(year, month, day);
-		model2.setSelected(true);
-		datePanel2 = new JDatePanelImpl(model2);
-		datePicker2 = new JDatePickerImpl(datePanel2, new DateLabelFormatter());
-		System.out.println(model.getValue());
-		//datePicker2.getJFormattedTextField().getText();
-		
-		JPanel selectionPanel = new JPanel();	
-	    
-		JPanel footer = new JPanel();
-		JPanel dateFrame = new JPanel();
-		JPanel bottomPanel = new JPanel();
-		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
-																
-	    selectionPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-														
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setBackground(new Color(45, 45, 45));
-		buttonPanel.setLayout(new GridBagLayout());
-																		
-		JPanel browserPanel = new JPanel();
-		browserPanel.setBackground(new Color(45, 45, 45));
-		browserPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		
-		closeButton.setVisible(true);
-		browserPanel.add(closeButton);
-		//browserPanel.add(browserButton);
-
-		browserPanel.add(filePathLabel);
-		//browserPanel.add(configButton);
-		
-		//browserPanel.add(selectionPanel);
-		filePathLabel.setForeground(Color.WHITE);
-
-		runButton.setPreferredSize(new Dimension(100, 30));
-		runButton.setMinimumSize(new Dimension(100, 30));	
-												
-		//loginButton.setPreferredSize(new Dimension(100, 30));
-		//loginButton.setMinimumSize(new Dimension(100, 30));
-								
-		//browserButton.setPreferredSize(new Dimension(100, 30));
-		//browserButton.setMinimumSize(new Dimension(100, 30));
-		
-		closeButton.setPreferredSize(new Dimension(100, 30));
-		closeButton.setMinimumSize(new Dimension(100, 30));
-														
-		JPanel startPanel = new JPanel();
-		startPanel.setBackground(new Color(45, 45, 45));
-		startPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		startPanel.add(runButton);
-		//startPanel.add(loginButton);
-
-		statusLabel.setForeground(new Color(204, 0, 0));
-		statusLabel.setFont(statusLabel.getFont().deriveFont(15f));
-															
-		this.addComponentWithConstraint(buttonPanel, browserPanel, 0, 0, 1, 1,
-				30, 80, GridBagConstraints.WEST, GridBagConstraints.BOTH, 20,
-				20, 20, 5, 0, 0);								
-		this.addComponentWithConstraint(buttonPanel, startPanel, 1, 0, 2, 1,
-				10, 80, GridBagConstraints.EAST, GridBagConstraints.BOTH, 10,
-				0, 10, 20, 0, 0);
-		
-		JPanel statusPanel = new JPanel();
-		statusPanel.setBackground(new Color(143, 140, 149));
-																
-		statusPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		footer.add(recordsLabel);
-		statusPanel.add(statusLabel);
-		dateFrame.add(datePicker);
-		dateFrame.add(datePicker2);
-		//datePicker
-		//datePicker.addActionListener(actionListener);
-		
-		datePicker.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				toDate = datePicker2.getJFormattedTextField().getText();
-				fromDate =datePicker.getJFormattedTextField().getText();
-
-			}
-		});
-			/*		
-		browserButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				JFileChooser fileChooser = new JFileChooser();
-				if (filePathLabel.getText() != null
-						&& filePathLabel.getText().length() > 0) {
-					File file = new File(filePathLabel.getText());
-					if (file.exists() && file.isFile()) {
-						fileChooser.setCurrentDirectory(file.getParentFile());
-					}
-				}
-				FileFilter filter = new FileNameExtensionFilter(".xlsx", "xlsx");
-				fileChooser.setFileFilter(filter);
-				int returnValue = fileChooser.showOpenDialog(null);
-					
-				if (returnValue == JFileChooser.APPROVE_OPTION ) {
-					File selectedFile = fileChooser.getSelectedFile();
-					filePathLabel.setText(selectedFile.getAbsolutePath());
-					runButton.setEnabled(true);
-				}
-			}
-		});
-		*/
-		closeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				Thread closeThread = new Thread(){
-					public void run(){
-						startThread.interrupt();				
-					}
-				};
-				closeThread.start();			
-			}												
-		});
-		/*
-		loginButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent ae){
-				try{
-					login();
-				} catch (Exception e){
-					logger.error("ee");
-					e.printStackTrace();
-				}
-			}
-		});
-		*/
+		this.addComponentWithConstraint(panel, runButton, 0, 5, 2, 1, 1, 1, GridBagConstraints.NORTHWEST, 
+				GridBagConstraints.BOTH, 1, 1, 1, 1, 0, 0);
 		
 		runButton.addActionListener(new ActionListener() {
 			
@@ -565,53 +370,9 @@ public class ProcessMain extends JFrame implements PropertyChangeListener{
 			}
 		);
 		
-		bottomPanel.add(selectionPanel);
-		bottomPanel.add(footer);
-		bottomPanel.add(dateFrame);
-		bottomPanel.add(buttonPanel);
-		bottomPanel.add(statusPanel);
-		
-		selectionPanel.setVisible(true);
-		
-		
-		return bottomPanel;
-	}													
-
-	private JLabel assignScaledBackground() {
-
-		ImageIcon icon = new ImageIcon(this.getClass().getResource(
-				"/images/cc01.jpg"));
-		Image image = icon.getImage();
-		JLabel backgroundLabel = new JLabel(new ImageIcon(
-				image.getScaledInstance(600, 600, Image.SCALE_SMOOTH)));
-		backgroundLabel.setLayout(new BorderLayout());
-										
-		JLabel welcomeMessageLabel = new JLabel(welcomeMessage);
-		welcomeMessageLabel.setForeground(Color.white);
-		welcomeMessageLabel.setFont(welcomeMessageLabel.getFont().deriveFont(
-				25f));
-
-		// sJLabel recordsLabel  = new JLabel("x out of n records processed");
-														
-		JLabel programDescriptionLabel = new JLabel(descriptionMessage);
-		programDescriptionLabel.setForeground(Color.white);
-		programDescriptionLabel.setFont(programDescriptionLabel.getFont()
-				.deriveFont(25f));
-
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridBagLayout());
-		panel.setOpaque(false);
-		this.addComponentWithConstraint(panel, welcomeMessageLabel, 0, 0, 1, 1,
-				100, 100, GridBagConstraints.WEST, GridBagConstraints.BOTH, 0,
-				10, 0, 10, 0, 0);
-		
-		this.addComponentWithConstraint(panel, programDescriptionLabel, 0, 1,
-				1, 1, 100, 100, GridBagConstraints.WEST,
-				GridBagConstraints.BOTH, 0, 10, 20, 0, 0, 0);
-															
-		backgroundLabel.add(panel, BorderLayout.SOUTH);
-		return backgroundLabel;
+		return panel;
 	}
+
 
 	private void addComponentWithConstraint(JPanel panel, Component component,
 			int x, int y, int rowSpan, int columnSpan, double weightX,
